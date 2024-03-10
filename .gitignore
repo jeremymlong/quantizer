@@ -1,0 +1,8 @@
+.vscode
+build
+v0.1
+fp-info-cache
+*-bak
+*.canvas
+_autosave*
+*.lib

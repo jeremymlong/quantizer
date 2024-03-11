@@ -136,3 +136,18 @@ test(get_quantized_note_top_of_scale_sharp) {
     actual = proxy.get_quantized_note(11, true);
     assertEqual(expected, actual);
 }
+
+test(quantized_note_and_transposed_major) {
+    cv_quantizer_proxy proxy;
+    proxy.begin();
+
+    // transpose up by 2 half steps to get
+    // 0, 2, 4, 5, 7, 9, 11
+    // 2, 4, 6, 7, 9, 11, 13 or 1, 2, 4, 6, 7, 9, 11
+    proxy.set_base_note(2);
+    uint16_t expected, actual;
+
+    expected = 1;
+    actual = proxy.get_quantized_note(0, true);
+    assertEqual(expected, actual);
+}

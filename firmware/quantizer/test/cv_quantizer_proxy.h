@@ -33,4 +33,6 @@ class cv_quantizer_proxy : public quantizer::cv_quantizer {
         // Serial.println(")");
         return quantizer::cv_quantizer::get_quantized_note(note, is_sharp_of_chromatic);
     }
+
+    void set_base_note(uint8_t value) { quantizer::cv_quantizer::set_base_note(value); }
 };

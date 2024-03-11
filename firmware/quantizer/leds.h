@@ -21,7 +21,6 @@ class leds {
     void display_a_selected();
     void display_b_selected();
     void set_current_scale(const uint8_t* scale, int scale_size);
-    void set_base_note(int base_note);
     void show_scale();
     void set_current_note(uint16_t dac_note);
 
@@ -37,7 +36,6 @@ class leds {
     Adafruit_NeoPixel pixels;
     const uint8_t* current_scale{};
     int current_scale_size{};
-    int base_note{};
     led_color colors[led_count]{};
     bool displaying_a{};
     uint16_t last_dac_note = 1<<12;

@@ -28,7 +28,6 @@ void leds::begin() {
 void leds::display_a_selected() {
     displaying_a = true;
     pixels.setPixelColor(0, green);
-    //pixels.show();
     // Invalidate last_dac_note to force an update
     last_dac_note = 1<<15;
 }
@@ -36,7 +35,6 @@ void leds::display_a_selected() {
 void leds::display_b_selected() {
     displaying_a = false;
     pixels.setPixelColor(0, red);
-    //pixels.show();
     // Invalidate last_dac_note to force an update
     last_dac_note = 1<<15;
 }
@@ -44,18 +42,15 @@ void leds::display_b_selected() {
 void leds::set_current_scale(const uint8_t* scale, int scale_size) {
     current_scale = scale;
     current_scale_size = scale_size;
-    show_scale();
-}
-
-void leds::set_base_note(int base_note) {
-    this->base_note = base_note;
+    // Invalidate last_dac_note to force an update
+    last_dac_note = 1<<15;
     show_scale();
 }
 
 void leds::show_scale() {
     clear_scale_leds();
     for (int i = 0; i < current_scale_size; i ++) {
-        int pixel_index = ((current_scale[i] + base_note) % 12) + 1;
+        int pixel_index = current_scale[i] + 1;
         colors[pixel_index].b = dim_blue;
         pixels.setPixelColor(pixel_index, colors[pixel_index].toUint());
     }

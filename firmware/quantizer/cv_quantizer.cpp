@@ -38,13 +38,7 @@ void cv_quantizer::on_adc_update(adc_channel channel, uint16_t adc_sample) {
             break;
             
         case quantizer::adc_channel::base_note: {
-            int new_base_note = map(adc_sample, 0, 1023, 0, 11);
-            if (new_base_note != base_note) {
-                base_note = new_base_note;
-                channel_a.update(quantize_cv(adc.get_last_sample(quantizer::adc_channel::cv_input_a)));
-                channel_b.update(quantize_cv(adc.get_last_sample(quantizer::adc_channel::cv_input_b)));
-                leds.set_base_note(base_note);
-            }
+            set_base_note(map(adc_sample, 0, 1023, 0, 11));
             break;
         }
     }
@@ -75,12 +69,11 @@ uint16_t cv_quantizer::quantize_cv(uint16_t cv) {
     int note = chromatic_index % 12;
     int quantized_note = get_quantized_note(note, is_sharp_of_choromatic);
     int quantized_note_index = quantized_note + (octave * 12);
-    int final_note = constrain(quantized_note_index + base_note, 0, 60);
-    return dac_output_notes[final_note];
+    return dac_output_notes[quantized_note_index];
 }
 
 int cv_quantizer::get_quantized_note(int note, bool is_sharp_of_chromatic) {
-    int lower_index = 0;
+    int lower_index = current_scale[0];
     int higher_index = current_scale_size - 1;
     if (note > current_scale[higher_index]) {
         // Edge case when the note may be in the next octave.
@@ -125,15 +118,34 @@ int cv_quantizer::get_quantized_note(int note, bool is_sharp_of_chromatic) {
 }
 
 void cv_quantizer::set_current_scale() {
-    current_scale = scales[current_scale_index];
+    if (current_scale != nullptr) {
+        delete[] current_scale;
+        current_scale = nullptr;
+    }
     current_scale_size = scale_sizes[current_scale_index];
+    current_scale = new uint8_t[current_scale_size];
+    // Need to update the current scale to selected. Also, transpose by base_note.
+    // This can leave current_scale unsorted, so it needs to be sorted afterward.
+    for (int i = 0; i < current_scale_size; i++) {
+        current_scale[i] = (scales[current_scale_index][i] + base_note) % 12;
+    }
+
+    qsort(current_scale,  current_scale_size, sizeof(uint8_t),
+        [](const void *a, const void *b) {
+            return  ( *(uint8_t*)a - *(uint8_t*)b );
+        }
+    );
+
     leds.set_current_scale(current_scale, current_scale_size);
-    // Serial.print("current_scale:");
-    // for (int i = 0; i < current_scale_size; i++) {
-    //     Serial.print(" ");
-    //     Serial.print(current_scale[i]);
-    // }
-    // Serial.println();
+}
+
+void cv_quantizer::set_base_note(uint8_t value) {  
+    if (value != base_note) {
+        base_note = value;
+        set_current_scale();
+        channel_a.update(quantize_cv(adc.get_last_sample(quantizer::adc_channel::cv_input_a)));
+        channel_b.update(quantize_cv(adc.get_last_sample(quantizer::adc_channel::cv_input_b)));
+    }
 }
 
 void cv_quantizer::next_scale() {

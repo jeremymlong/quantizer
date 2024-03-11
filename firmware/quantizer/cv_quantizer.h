@@ -26,15 +26,16 @@ class cv_quantizer : public adc_handler {
         uint16_t quantize_cv(uint16_t cv);
         int get_quantized_note(int note, bool is_sharp_of_choromatic);
         void set_current_scale();
+        void set_base_note(uint8_t value);
 
         adc& adc = adc::get_instance();
         channel channel_a = channel(pins::dac_a_select, pins::trigger_out_a);
         channel channel_b = channel(pins::dac_b_select, pins::trigger_out_b);
         leds leds;
         
-        int base_note = 0;
+        uint8_t base_note = 0;
         int current_scale_index = 0;
-        const uint8_t* current_scale{};
+        uint8_t* current_scale = nullptr;
         size_t current_scale_size{};
         bool displaying_a_side = true;
 };

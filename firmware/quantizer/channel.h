@@ -17,6 +17,9 @@ class channel {
   private:
     dac dac;
     portamento portamento;
+
+    void update_cv_output();
+
     uint16_t current_dac_value{1<<15};
 
     uint64_t disable_input_triggering_mode_ms{};

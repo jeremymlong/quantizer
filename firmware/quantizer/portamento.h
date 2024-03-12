@@ -8,7 +8,7 @@ class portamento {
     portamento() = default;
 
     void set_duration(int milliseconds);
-    void start(uint16_t start_value, uint16_t end_value, uint64_t current_ms);
+    void start(uint16_t value, uint64_t current_ms);
     int get_current_value(uint64_t current_ms);
     uint16_t get_last_calculated_value();
 

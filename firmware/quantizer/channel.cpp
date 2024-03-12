@@ -15,14 +15,15 @@ void channel::loop() {
         if (input_trigger_pending) {
             input_trigger_pending = false;
             disable_input_triggering_mode_ms = ms + 6000;
-            dac.write(portamento.get_current_value(ms));
+            update_cv_output();
         }
         if (ms > disable_input_triggering_mode_ms) {
             input_triggering_mode = false;
         }
-    } else {
-        dac.write(portamento.get_current_value(ms));
     }
+
+    dac.write(portamento.get_current_value(ms));
+
     if (output_trigger_pending && ms > output_trigger_low_ms) {
         output_trigger_pending = false;
         digitalWrite(output_trigger_pin, HIGH); // inverted logic
@@ -30,16 +31,22 @@ void channel::loop() {
 }
 
 void channel::update(uint16_t dac_value) {
-    if (!input_triggering_mode && dac_value != current_dac_value) {
+    if (dac_value != current_dac_value) {
         current_dac_value = dac_value;
-        uint64_t ms = millis();
-        portamento.start(current_dac_value, dac_value, ms);
-
-        // trigger
-        output_trigger_pending = true;
-        output_trigger_low_ms = ms + 5;
-        digitalWrite(output_trigger_pin, LOW);  // inverted logic
+        if (!input_triggering_mode) {
+            update_cv_output();
+        }
     }
+}
+
+void channel::update_cv_output() {
+    uint64_t ms = millis();
+    portamento.start(current_dac_value, ms);
+
+    // trigger
+    output_trigger_pending = true;
+    output_trigger_low_ms = ms + 5;
+    digitalWrite(output_trigger_pin, LOW);  // inverted logic
 }
 
 void channel::trigger() {

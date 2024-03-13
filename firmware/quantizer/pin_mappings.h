@@ -18,9 +18,9 @@ namespace pins {
     const int cv_input_b = A1;
     const int portamento = A2;
     const int base_note = A3;
-    // A4
+    const int trigger_out_b = A4;
     const int trigger_out_a = A5;
-    const int trigger_out_b = A6;
+    // A6
     // A7
 }
 }

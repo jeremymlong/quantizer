@@ -23,11 +23,11 @@ void setup() {
     pinMode(quantizer::pins::trigger_in_b, INPUT_PULLUP);
 
     attachInterrupt(digitalPinToInterrupt(quantizer::pins::trigger_in_a), []{
-        cv_quantizer.trigger_a(digitalRead(quantizer::pins::trigger_in_a));
+        cv_quantizer.trigger_a(!digitalRead(quantizer::pins::trigger_in_a));
     }, CHANGE);
 
     attachInterrupt(digitalPinToInterrupt(quantizer::pins::trigger_in_b), []{
-        cv_quantizer.trigger_b(digitalRead(quantizer::pins::trigger_in_b));
+        cv_quantizer.trigger_b(!digitalRead(quantizer::pins::trigger_in_b));
     }, CHANGE);
 
     cv_quantizer.begin();

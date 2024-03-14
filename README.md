@@ -32,6 +32,10 @@
  * Editable scale
  * Chord mode
 
+## Arduino Dependencies
+ * [Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel)
+ * [AUnit](https://github.com/bxparks/AUnit) (for tests)
+
 ## Notes about LEDs
 The 12 scale LED are not included on the schematic or board. My hope was to use these boards for another project. I directly mounted the LEDs to the panel with hot glue and wired them point to point.
 

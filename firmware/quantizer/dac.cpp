@@ -10,11 +10,6 @@ dac::dac(uint8_t select_pin) : select_pin(select_pin) {
 }
 
 void dac::write(uint16_t value) {
-    // Serial.print("dac::write ");
-    // Serial.print(value);
-    // Serial.print("  (");
-    // Serial.print((value / 4095.0) * 5000);
-    // Serial.println("mV)");
     digitalWrite(select_pin, LOW);
     SPI.beginTransaction(dac_spi_settings);
     SPI.transfer16(0x2000 | 0x1000 | value);

@@ -11,8 +11,6 @@ quantizer::cv_quantizer cv_quantizer;
 quantizer::leds leds;
 void setup() {
     SPI.begin();
-    Serial.begin(115200);
-
     analogReference(EXTERNAL);
     
     encoder.increased = [] { cv_quantizer.next_scale(); };

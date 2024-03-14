@@ -86,10 +86,6 @@ int cv_quantizer::get_quantized_note(int note, bool is_sharp_of_chromatic) {
             if (note >= current_low_index && note <= current_high_index) {
                 lower_index = current_low_index;
                 higher_index = current_high_index;
-                // Serial.print("Found target indexes ");
-                // Serial.print(lower_index);
-                // Serial.print(", ");
-                // Serial.println(higher_index);
                 break;
             }
         }
@@ -98,22 +94,16 @@ int cv_quantizer::get_quantized_note(int note, bool is_sharp_of_chromatic) {
     int distance_to_higher = higher_index - note;
     int result;
     if (distance_to_lower == distance_to_higher) {
-        // Serial.print("Distance is equal, using bool ");
         if (is_sharp_of_chromatic) {
-            // Serial.print("(higher) ");
             result = higher_index;
         } else {
-            // Serial.print("(lower) ");
             result = lower_index;
         }
     } else if (distance_to_lower < distance_to_higher) {
-        // Serial.print("Closer to lower ");
         result = lower_index;
     } else {
-        // Serial.print("Closer to higher ");
         result = higher_index;
     }
-    // Serial.println(result);
     return result;
 }
 

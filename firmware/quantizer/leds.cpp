@@ -14,12 +14,6 @@ leds::leds() : pixels(led_count, pins::leds, NEO_RGB + NEO_KHZ800) {}
 void leds::begin() {
     pixels.begin();
     pixels.setBrightness(32);
-    // pixels.clear();
-    // for (int i = 0; i < pixels.numPixels(); i++) {
-    //     pixels.setPixelColor(i, orange);
-    //     pixels.show();
-    //     delay(50);
-    // }
     pixels.clear();
     pixels.show();
     set_current_note(0);
@@ -109,20 +103,10 @@ void leds::set_current_note(uint16_t dac_note) {
                 // Find the right octave (5V is the last value, so can look ahead to the last value (index 60))
                 uint16_t low_octave_note = dac_output_notes[octave_start_index];
                 uint16_t high_octave_note = dac_output_notes[octave_start_index + 12];
-                // Serial.print("Searching for correct octave - i: ");
-                // Serial.print(i);
-                // Serial.print(", ");
-                // Serial.print(low_octave_note);
-                // Serial.print(" <= ");
-                // Serial.print(dac_note);
-                // Serial.print(" < ");
-                // Serial.print(high_octave_note);
-                // Serial.println();
                 bool in_octave_range = low_octave_note <= dac_note && dac_note < high_octave_note;
                 if (!in_octave_range) {
                     continue;
                 }
-                //Serial.println("Found octave");
                 
                 uint16_t note_in_octave = dac_note - low_octave_note;
 
@@ -131,30 +115,12 @@ void leds::set_current_note(uint16_t dac_note) {
                     uint16_t lower_note = dac_output_notes[j];
                     uint16_t higher_note = dac_output_notes[j + 1];
                     uint16_t dac_note_difference = higher_note - lower_note;
-                    
-                    // Serial.print("Searching for note range: ");
-                    // Serial.print(lower_note);
-                    // Serial.print(" <= ");
-                    // Serial.print(note_in_octave);
-                    // Serial.print(" < ");
-                    // Serial.println(higher_note);
 
                     if (lower_note <= note_in_octave  && note_in_octave < higher_note) {
                         lower_index = j;
                         higher_index = j + 1;
                         higher_led_value = note_in_octave - lower_note;
                         lower_led_value = dac_note_difference - higher_led_value;
-                        // Serial.print("Found match - lower index: ");
-                        // Serial.print(lower_index);
-                        // Serial.print(", higher_index: ");
-                        // Serial.print(higher_index);
-                        // Serial.print(", lower_led_value: ");
-                        // Serial.print(lower_led_value);
-                        // Serial.print(", higher_led_value: ");
-                        // Serial.print(higher_led_value);
-                        // Serial.print(", dac_note_difference: ");
-                        // Serial.print(dac_note_difference);
-                        // Serial.println();
                         break;
                     }
                 }

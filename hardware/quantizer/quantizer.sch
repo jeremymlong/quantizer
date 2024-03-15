@@ -544,7 +544,6 @@ Text GLabel 7300 2600 2    50   Input ~ 0
 Transpose
 Wire Wire Line
 	7300 2600 7150 2600
-NoConn ~ 7150 2700
 $Comp
 L Reference_Voltage:TL431LP U5
 U 1 1 65C03FB4
@@ -1521,7 +1520,7 @@ Wire Wire Line
 	10900 6600 11050 6600
 Text GLabel 7300 2800 2    50   Input ~ 0
 TGR_OUT_A
-Text GLabel 7300 2900 2    50   Input ~ 0
+Text GLabel 7300 2700 2    50   Input ~ 0
 TGR_OUT_B
 Wire Wire Line
 	6050 2100 6150 2100
@@ -1672,7 +1671,7 @@ F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 6650 2300 50
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7150 2900 7300 2900
+	7150 2700 7300 2700
 NoConn ~ 6150 2500
 Text GLabel 6050 2400 0    50   Input ~ 0
 LEDs
@@ -2649,4 +2648,5 @@ Wire Wire Line
 	8550 2400 8550 2450
 Wire Wire Line
 	8550 2750 8550 2800
+NoConn ~ 7150 2900
 $EndSCHEMATC

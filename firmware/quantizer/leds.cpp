@@ -1,5 +1,7 @@
 #include "leds.h"
 
+//#define REVERSE_LED_ORDER
+
 using namespace quantizer;
 
 const uint32_t off = 0;
@@ -45,6 +47,9 @@ void leds::show_scale() {
     clear_scale_leds();
     for (int i = 0; i < current_scale_size; i ++) {
         int pixel_index = current_scale[i] + 1;
+        #ifdef REVERSE_LED_ORDER
+        pixel_index = 12 - current_scale[i];
+        #endif
         colors[pixel_index].b = dim_blue;
         pixels.setPixelColor(pixel_index, colors[pixel_index].toUint());
     }
@@ -130,6 +135,11 @@ void leds::set_current_note(uint16_t dac_note) {
 
         lower_index %= 12;
         higher_index %= 12;
+
+        #ifdef REVERSE_LED_ORDER
+        lower_index = 11 - lower_index;
+        higher_index = 11 - higher_index;
+        #endif
 
         lower_index++;
         higher_index++;

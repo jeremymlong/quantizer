@@ -80,6 +80,9 @@ Use a multimeter to calibrate the voltage reference to 5.0V. This voltage refere
 ## Notes about LEDs
 The 12 scale LED are not included on the schematic or board. My hope was to use these boards for another project. I directly mounted the LEDs to the panel with hot glue and wired them point to point. Wires are connected to the leads of the first lLED. On the back of the board I left the leads long and connected the power wires as pictured below.
 
+### Reversing LED order
+You can reverse the LED order if you want the lowest note at the top of the panel. There's a define commented out at the top of leds.cpp `REVERSE_LED_ORDER`. Just uncomment that line to reverse the order.
+
 ![](images/led_p2p_panel_wiring.jpg)
 
 LEDs are WS2811 (NeoPixel) style, but in a traditional 5mm form factor.

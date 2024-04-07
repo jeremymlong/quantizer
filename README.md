@@ -78,7 +78,7 @@ Use a multimeter to calibrate the voltage reference to 5.0V. This voltage refere
  * [AUnit](https://github.com/bxparks/AUnit) (for tests)
 
 ## Notes about LEDs
-The 12 scale LED are not included on the schematic or board. My hope was to use these boards for another project. I directly mounted the LEDs to the panel with hot glue and wired them point to point. Wires are connected to the leads of the first lLED. On the back of the board I left the leads long and connected the power wires as pictured below.
+The 12 scale LED are not included on the schematic or board. My hope was to use these boards for another project. I directly mounted the LEDs to the panel with hot glue and wired them point to point. Wires are connected to the leads of the first LED. On the back of the board I left the leads long and connected the power wires as pictured below. The second LED is at the bottom of the panel and the rest wire up the panel to the top.
 
 ### Reversing LED order
 You can reverse the LED order if you want the lowest note at the top of the panel. There's a define commented out at the top of leds.cpp `REVERSE_LED_ORDER`. Just uncomment that line to reverse the order.
